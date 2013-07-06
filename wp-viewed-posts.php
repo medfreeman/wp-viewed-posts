@@ -71,10 +71,6 @@ class ViewedPosts {
 		
 	} // end constructor
 	
-	/*--------------------------------------------*
-	 * Detect grayscale thumbnail, replace size by standard one
-	 *---------------------------------------------*/
-	
 	/**
     * Get viewed posts
     */
@@ -117,7 +113,7 @@ class ViewedPosts {
     
     function clear_viewed_posts() {
 		foreach($this->viewed_posts_array as $post_type => $posts) {
-			if(is_post_type_archive($post_type) && sizeof($posts) == wp_count_posts($post_type)->publish) {
+			if((is_home() || is_post_type_archive($post_type)) && sizeof($posts) == wp_count_posts($post_type)->publish) {
 				$this->all_viewed[$post_type] = true;
 				unset($this->viewed_posts_array[$post_type]);
 			}
@@ -132,7 +128,7 @@ class ViewedPosts {
 		$data = serialize($this->viewed_posts_array);
 		//print_r($data);
 		//unset($_COOKIE[VIEWED_POSTS_COOKIE]);
-		setcookie(VIEWED_POSTS_COOKIE, $data, time()+31536000, COOKIEPATH, COOKIE_DOMAIN, false, true);
+		setcookie(VIEWED_POSTS_COOKIE, $data, time()+43200, COOKIEPATH, COOKIE_DOMAIN, false, true);
 	}
 	
 	/**
