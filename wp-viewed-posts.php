@@ -82,7 +82,7 @@ class ViewedPosts {
 				$this->viewed_posts_array = $viewed_posts;
 			} else {
 				//unset($_COOKIE[VIEWED_POSTS_COOKIE]);
-				setcookie(VIEWED_POSTS_COOKIE, false, time()+31536000, COOKIEPATH, COOKIE_DOMAIN, false, true);
+				setcookie(VIEWED_POSTS_COOKIE, false, time()+31536000, COOKIEPATH, COOKIE_DOMAIN, false, false);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ class ViewedPosts {
 		$data = serialize($this->viewed_posts_array);
 		//print_r($data);
 		//unset($_COOKIE[VIEWED_POSTS_COOKIE]);
-		setcookie(VIEWED_POSTS_COOKIE, $data, time()+43200, COOKIEPATH, COOKIE_DOMAIN, false, true);
+		setcookie(VIEWED_POSTS_COOKIE, $data, time()+43200, COOKIEPATH, COOKIE_DOMAIN, false, false);
 	}
 	
 	/**
