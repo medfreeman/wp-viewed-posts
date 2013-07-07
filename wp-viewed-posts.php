@@ -81,7 +81,6 @@ class ViewedPosts {
 			if(is_array($viewed_posts)) {
 				$this->viewed_posts_array = $viewed_posts;
 			} else {
-				//unset($_COOKIE[VIEWED_POSTS_COOKIE]);
 				setcookie(VIEWED_POSTS_COOKIE, false, time()+31536000, COOKIEPATH, COOKIE_DOMAIN, false, false);
 			}
 		}
@@ -126,8 +125,6 @@ class ViewedPosts {
     
 	function set_viewed_posts_cookie() {
 		$data = serialize($this->viewed_posts_array);
-		//print_r($data);
-		//unset($_COOKIE[VIEWED_POSTS_COOKIE]);
 		setcookie(VIEWED_POSTS_COOKIE, $data, time()+43200, COOKIEPATH, COOKIE_DOMAIN, false, false);
 	}
 	
