@@ -49,6 +49,7 @@ class ViewedPosts {
 		
 		add_action( 'init', array($this, 'get_viewed_posts_cookie'), 1);
 		add_action( 'wp', array($this, 'update_viewed_posts'), 97);
+		add_filter( 'wpvp_clear_viewed_posts', array($this, 'clear_viewed_posts_by_type'), 10, 2);
 		add_action( 'wp', array($this, 'clear_viewed_posts'), 98);
 		add_action( 'wp', array($this, 'set_viewed_posts_cookie'), 99);
 		
@@ -106,17 +107,22 @@ class ViewedPosts {
 		}
 	}
 	
+	function clear_viewed_posts() {
+		$this->viewed_posts_array = apply_filters('wpvp_clear_viewed_posts', $this->viewed_posts_array);
+	}
+	
 	/**
     * Clear viewed posts when all have been seen and we're in archive page
     */
     
-    function clear_viewed_posts() {
-		foreach($this->viewed_posts_array as $post_type => $posts) {
+    function clear_viewed_posts_by_type($viewed_posts_array) {
+		foreach($viewed_posts_array as $post_type => $posts) {
 			if((is_home() || is_post_type_archive($post_type)) && sizeof($posts) == wp_count_posts($post_type)->publish) {
 				$this->all_viewed[$post_type] = true;
-				unset($this->viewed_posts_array[$post_type]);
+				unset($viewed_posts_array[$post_type]);
 			}
 		}
+		return $viewed_posts_array;
 	}
 	
 	/**
